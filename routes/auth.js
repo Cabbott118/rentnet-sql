@@ -64,4 +64,64 @@ router.get('/', auth, (req, res) => {
   );
 });
 
+// @route  PATCH api/auth/:uuid
+// @desc   Edit a user
+// @access Private
+router.patch('/:uuid', auth, (req, res) => {
+  try {
+    db.User.findOne({ where: { uuid: req.params.uuid } }).then((user) => {
+      if (user) {
+        // If user is found, destructure fields
+        let {
+          first_name,
+          last_name,
+          email,
+          address,
+          city,
+          state,
+          zip,
+          phone_number,
+        } = req.body;
+        {
+          // Check if any fields are sent back undefined
+          // if so, reassign them their old value
+          first_name === undefined ? user.dataValues.first_name : first_name;
+          last_name === undefined ? user.dataValues.last_name : last_name;
+          email === undefined ? user.dataValues.email : email;
+          address === undefined ? user.dataValues.address : address;
+          city === undefined ? user.dataValues.city : city;
+          state === undefined ? user.dataValues.state : state;
+          zip === undefined ? user.dataValues.zip : zip;
+          phone_number === undefined
+            ? user.dataValues.phone_number
+            : phone_number;
+        }
+        db.User.update(
+          // Update all fields with new assignments
+          // existing fields that came back undefined are now reassigned
+          {
+            first_name,
+            last_name,
+            email,
+            address,
+            city,
+            state,
+            zip,
+            phone_number,
+          },
+          { where: { uuid: req.params.uuid } }
+        );
+        res.status(200).json({ msg: 'User successfully updated.' });
+      } else {
+        res.json({
+          msg: 'Sorry, no user found!',
+        });
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Oops, something went wrong!' });
+  }
+});
+
 module.exports = router;

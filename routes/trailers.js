@@ -69,9 +69,20 @@ router.post('/', auth, (req, res) => {
 // @desc   Get a list of trailers (inc. the owners)
 // @access Public
 router.get('/', (req, res) => {
-  db.Trailer.findAll({ include: 'user' }).then((trailer) => {
-    res.json(trailer);
-  });
+  try {
+    db.Trailer.findAll({ include: 'user' }).then((trailers) => {
+      if (trailers.length > 0) {
+        res.json(trailers);
+      } else {
+        res.json({
+          msg: 'Sorry, no results to display at this time.',
+        });
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Oops, something went wrong!' });
+  }
 });
 
 // @route  GET api/trailers/:city
@@ -97,7 +108,7 @@ router.get('/:city', (req, res) => {
 });
 
 // @route  PATCH api/trailers/:uuid
-// @desc   Delete a trailer
+// @desc   Update a trailer
 // @access Private
 router.patch('/:uuid', auth, (req, res) => {
   try {

@@ -35,6 +35,21 @@ module.exports = {
         defaultValue: 'user',
         allowNull: false,
       },
+      address: {
+        type: DataTypes.STRING,
+      },
+      city: {
+        type: DataTypes.STRING,
+      },
+      state: {
+        type: DataTypes.STRING,
+      },
+      zip: {
+        type: DataTypes.STRING,
+      },
+      phone_number: {
+        type: DataTypes.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
