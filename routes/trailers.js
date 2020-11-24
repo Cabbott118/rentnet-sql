@@ -67,6 +67,41 @@ router.get('/:city', (req, res) => {
   }
 });
 
+// @route  PATCH api/trailers/:uuid
+// @desc   Delete a trailer
+// @access Private
+router.patch('/:uuid', auth, (req, res) => {
+  try {
+    db.Trailer.findOne({ where: { uuid: req.params.uuid } }).then((trailer) => {
+      if (trailer) {
+        // If trailer is found, destructure fields
+        let { brand, type, city } = req.body;
+        {
+          // Check if any fields are sent back undefined
+          // if so, reassign them their old value
+          brand === undefined ? trailer.dataValues.brand : brand;
+          type === undefined ? trailer.dataValues.type : type;
+          city === undefined ? trailer.dataValues.city : city;
+        }
+        db.Trailer.update(
+          // Update all fields with new assignments
+          // existing fields that came back undefined are now reassigned
+          { brand, type, city },
+          { where: { uuid: req.params.uuid } }
+        );
+        res.status(200).json({ msg: 'Trailer successfully updated.' });
+      } else {
+        res.json({
+          msg: 'Sorry, no trailer found!',
+        });
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Oops, something went wrong!' });
+  }
+});
+
 // @route  DELETE api/trailers/:uuid
 // @desc   Delete a trailer
 // @access Private

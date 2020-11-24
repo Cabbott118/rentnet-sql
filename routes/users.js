@@ -30,7 +30,13 @@ router.get('/', (req, res) => {
 router.get('/:uuid', (req, res) => {
   try {
     db.User.findOne({ where: { uuid: req.params.uuid } }).then((user) => {
-      res.json(user);
+      if (user) {
+        res.json(user);
+      } else {
+        res.json({
+          msg: 'Sorry, no user found.',
+        });
+      }
     });
   } catch (err) {
     console.log(err);
