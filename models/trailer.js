@@ -31,8 +31,36 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       city: {
         type: DataTypes.STRING,
+        allowNull: false,
+      },
+      state: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      zip: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      rate: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
+      },
+      max_payload: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      width: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
+      },
+      length: {
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
       },
       available: {

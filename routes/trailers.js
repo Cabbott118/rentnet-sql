@@ -12,8 +12,30 @@ const db = require('../models');
 // @desc   Create a trailer
 // @access Private
 router.post('/', auth, (req, res) => {
-  const { brand, type, city } = req.body;
-  if (!brand || !type || !city) {
+  const {
+    brand,
+    type,
+    address,
+    city,
+    state,
+    zip,
+    rate,
+    max_payload,
+    width,
+    length,
+  } = req.body;
+  if (
+    !brand ||
+    !type ||
+    !address ||
+    !city ||
+    !state ||
+    !zip ||
+    !rate ||
+    !max_payload ||
+    !width ||
+    !length
+  ) {
     return res.status(400).json({ msg: 'Please complete all fields' });
   }
 
@@ -23,7 +45,14 @@ router.post('/', auth, (req, res) => {
         db.Trailer.create({
           brand,
           type,
+          address,
           city,
+          state,
+          zip,
+          rate,
+          max_payload,
+          width,
+          length,
           user_id: user.id,
         });
       })
@@ -75,18 +104,49 @@ router.patch('/:uuid', auth, (req, res) => {
     db.Trailer.findOne({ where: { uuid: req.params.uuid } }).then((trailer) => {
       if (trailer) {
         // If trailer is found, destructure fields
-        let { brand, type, city } = req.body;
+        let {
+          brand,
+          type,
+          address,
+          city,
+          state,
+          zip,
+          rate,
+          max_payload,
+          width,
+          length,
+        } = req.body;
         {
           // Check if any fields are sent back undefined
           // if so, reassign them their old value
           brand === undefined ? trailer.dataValues.brand : brand;
           type === undefined ? trailer.dataValues.type : type;
+          address === undefined ? trailer.dataValues.address : address;
           city === undefined ? trailer.dataValues.city : city;
+          state === undefined ? trailer.dataValues.state : state;
+          zip === undefined ? trailer.dataValues.zip : zip;
+          rate === undefined ? trailer.dataValues.rate : rate;
+          max_payload === undefined
+            ? trailer.dataValues.max_payload
+            : max_payload;
+          width === undefined ? trailer.dataValues.width : width;
+          length === undefined ? trailer.dataValues.length : length;
         }
         db.Trailer.update(
           // Update all fields with new assignments
           // existing fields that came back undefined are now reassigned
-          { brand, type, city },
+          {
+            brand,
+            type,
+            address,
+            city,
+            state,
+            zip,
+            rate,
+            max_payload,
+            width,
+            length,
+          },
           { where: { uuid: req.params.uuid } }
         );
         res.status(200).json({ msg: 'Trailer successfully updated.' });
