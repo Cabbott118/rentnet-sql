@@ -11,16 +11,20 @@ router.use(cors());
 
 const db = require('../models');
 
+const { validateLogin } = require('../utility/validation');
+
 // @route  POST api/auth
 // @desc   Authenticate (Login) User
 // @access Public
 router.post('/', (req, res) => {
-  const { email, password } = req.body;
-  // Simple Validation
-  if (!email || !password) {
-    return res.status(400).json({ msg: 'Please complete all fields' });
-  }
+  const userData = {
+    email: req.body.email,
+    password: req.body.password,
+  };
 
+  const { valid, errors } = validateLogin(userData);
+  if (!valid) return res.status(400).json(errors);
+  const { email, password } = userData;
   // Check for existing user
   db.User.findOne({ where: { email: email } }).then((user) => {
     if (!user)
@@ -31,7 +35,7 @@ router.post('/', (req, res) => {
     // Validate password
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (!isMatch)
-        return res.status(400).json({ msg: 'Incorrect email or password' });
+        return res.status(400).json({ msg: 'Invalid email or password' });
 
       jwt.sign(
         { id: user.id },
