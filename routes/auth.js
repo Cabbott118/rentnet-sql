@@ -8,7 +8,7 @@ router.use(cors());
 const {
   login,
   getAuthenticatedUser,
-  editUser,
+  editUserPhone,
   editAddress,
 } = require('../controllers/authController');
 
@@ -25,7 +25,7 @@ router.get('/', auth, getAuthenticatedUser);
 // @route  PATCH api/auth/:uuid
 // @desc   Edit a user
 // @access Private
-router.patch('/:uuid', auth, editUser);
+router.patch('/edit-phone/:uuid', auth, editUserPhone);
 
 // @route  PATCH api/auth/edit-address/:uuid
 // @desc   Edit a user's address

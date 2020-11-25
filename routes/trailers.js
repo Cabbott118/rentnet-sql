@@ -24,10 +24,10 @@ router.post('/', auth, addTrailer);
 // @access Public
 router.get('/', getTrailers);
 
-// @route  GET api/trailers/:city
+// @route  GET api/trailers/location/:city
 // @desc   Get trailers in queried city
 // @access Public
-router.get('/:city', findTrailerByCity);
+router.get('/location/:city', findTrailerByCity);
 
 // @route  PATCH api/trailers/:uuid
 // @desc   Update a trailer

@@ -55,34 +55,18 @@ exports.getAuthenticatedUser = (req, res) => {
   }).then((user) => res.json(user));
 };
 
-exports.editUser = (req, res) => {
+exports.editUserPhone = (req, res) => {
   try {
     db.User.findOne({ where: { uuid: req.params.uuid } }).then((user) => {
       if (user) {
-        // If user is found, destructure fields
-        let { first_name, last_name, email, phone_number } = req.body;
-        {
-          // Check if any fields are sent back undefined
-          // if so, reassign them their old value
-          first_name === undefined ? user.dataValues.first_name : first_name;
-          last_name === undefined ? user.dataValues.last_name : last_name;
-          email === undefined ? user.dataValues.email : email;
-          phone_number === undefined
-            ? user.dataValues.phone_number
-            : phone_number;
-        }
+        let { phone_number } = req.body;
         db.User.update(
-          // Update all fields with new assignments
-          // existing fields that came back undefined are now reassigned
           {
-            first_name,
-            last_name,
-            email,
             phone_number,
           },
           { where: { uuid: req.params.uuid } }
         );
-        res.status(200).json({ msg: 'User successfully updated.' });
+        res.status(200).json({ msg: 'Phone number successfully updated.' });
       } else {
         res.json({
           msg: 'Sorry, no user found!',
