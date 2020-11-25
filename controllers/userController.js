@@ -61,3 +61,34 @@ exports.register = (req, res) => {
     });
   });
 };
+
+exports.getAllUsers = (req, res) => {
+  try {
+    db.User.findAll({ include: 'trailers' }).then((users) => {
+      res.json(users);
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Oops, something went wrong!' });
+  }
+};
+
+exports.getUserById = (req, res) => {
+  try {
+    db.User.findOne({
+      where: { uuid: req.params.uuid },
+      include: 'trailers',
+    }).then((user) => {
+      if (user) {
+        res.json(user);
+      } else {
+        res.json({
+          msg: 'Sorry, no user found.',
+        });
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Oops, something went wrong!' });
+  }
+};
