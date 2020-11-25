@@ -3,6 +3,21 @@ const { validateTrailer } = require('../utility/validation');
 const { editTrailerHelper } = require('../utility/helperFunctions');
 
 exports.addTrailer = (req, res) => {
+  const newTrailer = {
+    brand: req.body.brand.trim(),
+    type: req.body.type.trim(),
+    address: req.body.address.trim(),
+    city: req.body.city.trim(),
+    state: req.body.state,
+    zip: req.body.zip.trim(),
+    rate: req.body.rate.trim(),
+    max_payload: req.body.max_payload.trim(),
+    width: req.body.width.trim(),
+    length: req.body.length.trim(),
+  };
+
+  const { valid, errors } = validateTrailer(newTrailer);
+  if (!valid) return res.status(400).json(errors);
   const {
     brand,
     type,
@@ -14,21 +29,7 @@ exports.addTrailer = (req, res) => {
     max_payload,
     width,
     length,
-  } = req.body;
-  if (
-    !brand ||
-    !type ||
-    !address ||
-    !city ||
-    !state ||
-    !zip ||
-    !rate ||
-    !max_payload ||
-    !width ||
-    !length
-  ) {
-    return res.status(400).json({ msg: 'Please complete all fields' });
-  }
+  } = newTrailer;
 
   try {
     db.User.findOne({ where: { id: req.user.id } })

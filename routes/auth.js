@@ -9,6 +9,7 @@ const {
   login,
   getAuthenticatedUser,
   editUser,
+  editAddress,
 } = require('../controllers/authController');
 
 // @route  POST api/auth
@@ -25,5 +26,10 @@ router.get('/', auth, getAuthenticatedUser);
 // @desc   Edit a user
 // @access Private
 router.patch('/:uuid', auth, editUser);
+
+// @route  PATCH api/auth/edit-address/:uuid
+// @desc   Edit a user's address
+// @access Private
+router.patch('/edit-address/:uuid', auth, editAddress);
 
 module.exports = router;

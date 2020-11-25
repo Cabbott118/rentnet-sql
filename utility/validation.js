@@ -38,3 +38,23 @@ exports.validateLogin = (data) => {
     valid: Object.keys(errors).length === 0 ? true : false,
   };
 };
+
+exports.validateTrailer = (data) => {
+  let errors = {};
+  if (isEmpty(data.brand)) errors.brand = 'Brand is required.';
+  if (isEmpty(data.type)) errors.type = 'Last name is required';
+  if (isEmpty(data.address)) errors.address = 'Address is required.';
+  if (isEmpty(data.city)) errors.city = 'City is required.';
+  if (isEmpty(data.state)) errors.state = 'State is required.';
+  if (isEmpty(data.zip)) errors.zip = 'Zip code is required.';
+  if (isEmpty(data.rate)) errors.rate = 'Daily rate is required.';
+  if (isEmpty(data.max_payload))
+    errors.max_payload = 'Max payload is required.';
+  if (isEmpty(data.width)) errors.width = 'Trailer width is required.';
+  if (isEmpty(data.length)) errors.length = 'Trailer height is required.';
+
+  return {
+    errors,
+    valid: Object.keys(errors).length === 0 ? true : false,
+  };
+};

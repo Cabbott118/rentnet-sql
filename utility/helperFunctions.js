@@ -66,3 +66,31 @@ exports.editTrailerHelper = (trailer, req) => {
     { where: { uuid: req.params.uuid } }
   );
 };
+
+exports.editUserAddress = (user, req) => {
+  let newObj = {};
+
+  if (updateValues(req.body.address, user.dataValues.address))
+    newObj.address = req.body.address;
+
+  if (updateValues(req.body.city, user.dataValues.city))
+    newObj.city = req.body.city;
+
+  if (updateValues(req.body.state, user.dataValues.state))
+    newObj.state = req.body.state;
+
+  if (updateValues(req.body.zip, user.dataValues.zip))
+    newObj.zip = req.body.zip;
+
+  const { address, city, state, zip } = newObj;
+
+  db.User.update(
+    {
+      address,
+      city,
+      state,
+      zip,
+    },
+    { where: { uuid: req.params.uuid } }
+  );
+};
