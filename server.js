@@ -1,5 +1,4 @@
 const express = require('express');
-
 const app = express();
 app.use(express.json());
 
@@ -24,3 +23,5 @@ app.listen(port, async () => {
   await sequelize.authenticate();
   console.log('Database Connected!');
 });
+
+module.exports = app;
