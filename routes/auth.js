@@ -22,8 +22,8 @@ router.post('/', login);
 // @access Private
 router.get('/', auth, getAuthenticatedUser);
 
-// @route  PATCH api/auth/:uuid
-// @desc   Edit a user
+// @route  PATCH api/auth/edit-phone/:uuid
+// @desc   Edit a user's phone number
 // @access Private
 router.patch('/edit-phone/:uuid', auth, editUserPhone);
 
