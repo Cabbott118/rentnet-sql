@@ -3,11 +3,15 @@ const app = express();
 app.use(express.json());
 
 // Routes
-app.use('/api/users', require('./routes/users'));
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/trailers', require('./routes/trailers'));
+app.use('/api/users', require('./api/users'));
+app.use('/api/auth', require('./api/auth'));
+app.use('/api/trailers', require('./api/trailers'));
 
 const { sequelize } = require('./models');
+
+app.get('/', (req, res) => {
+  res.send('Express');
+});
 
 const port = process.env.PORT || 5000;
 
